@@ -22,7 +22,6 @@ module.exports = {
   ],
   ignorePatterns: ['.eslintrc.js', 'node_modules/', 'dist/', 'src/database/migration/*'],
   rules: {
-    // '@typescript-eslint/space-before-blocks': ['off'],
     '@typescript-eslint/comma-dangle': ['error', 'never'],
     '@typescript-eslint/semi': ['error', 'never'],
     'class-methods-use-this': 'off',
