@@ -10,7 +10,7 @@ import * as path from 'path'
 import { AppService } from './app.service'
 import { AuthService } from './auth/auth.service'
 import { LocalAuthGuard } from './auth/local-auth.guard'
-import { MzPublic } from './app/common/decorator/public.decorator'
+import { PublicRoute } from './app/common/decorator/public.decorator'
 import { JoiValidationPipe } from './app/common/validation.pipe'
 
 @Controller()
@@ -20,8 +20,8 @@ export class AppController {
     private readonly authService: AuthService
   ) {}
 
-  @MzPublic()
   @ApiTags()
+  @PublicRoute()
   @Get('hello')
   async getHello() {
     try {
@@ -57,7 +57,7 @@ export class AppController {
     })
   }))
   @UseGuards(LocalAuthGuard)
-  @MzPublic()
+  @PublicRoute()
   @Post('auth/login')
   login(@Request() req) {
     try {
@@ -67,8 +67,6 @@ export class AppController {
     }
   }
 
-  @MzPublic()
-  @Post('upload')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './uploads',
@@ -87,6 +85,7 @@ export class AppController {
     },
     limits: { fileSize: 1024 * 1024 } // 1MB
   }))
+  @Post('upload')
   uploadfile(@Req() req, @UploadedFile() file: Express.Multer.File) {
     if (req.fileValidationError) {
       throw new BadRequestException(req.fileValidationError)

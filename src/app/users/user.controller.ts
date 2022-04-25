@@ -7,7 +7,7 @@ import {
 import * as Joi from 'joi'
 
 import { Mapper } from '../common/mapper'
-import { MzPublic } from '../common/decorator/public.decorator'
+import { PublicRoute } from '../common/decorator/public.decorator'
 import { JoiValidationPipe } from '../common/validation.pipe'
 
 import { User } from './user.entity'
@@ -36,7 +36,7 @@ export class UserController {
     }
   })
   @ApiCreatedResponse({})
-  @MzPublic()
+  @PublicRoute()
   @UsePipes(new JoiValidationPipe({
     body: Joi.object({
       email: Joi.string().email().required(),

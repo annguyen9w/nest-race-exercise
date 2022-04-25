@@ -6,7 +6,7 @@ import {
   MemoryHealthIndicator,
   TypeOrmHealthIndicator
 } from '@nestjs/terminus'
-import { MzPublic } from '../app/common/decorator/public.decorator'
+import { PublicRoute } from '../app/common/decorator/public.decorator'
 
 @Controller('health')
 export class HealthController {
@@ -19,7 +19,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  @MzPublic()
+  @PublicRoute()
   check() {
     return this.health.check([
       () => this.db.pingCheck('datatable', { timeout: 5000 }),
