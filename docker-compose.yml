@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  mazi-backend:
+    container_name: mazi-backend
+    build:
+      context: .
+      target: development
+    image: mazi-backend
+    command: npm run start:dev:no-docker
+    ports:
+      - "3000:80"
+    env_file:
+      - .env
+    environment:
+      - MODE=DEV
+      - PORT=80
+      - POSTGRES_HOST=postgres_nest
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    # healthcheck:
+    #   test: [ "curl", "-f", "http://127.0.0.1/api/v1.0/health" ]
+    #   timeout: 20s
+    #   retries: 10
+
+networks:
+  default:
+    external:
+      name: nginx-proxy-net
