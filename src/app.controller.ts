@@ -13,11 +13,7 @@ export class AppController {
 
   @Get('hello')
   async getHello() {
-    try {
-      return this.appService.getHello()
-    } catch (error) {
-      throw new BadRequestException(error)
-    }
+    return this.appService.getHello()
   }
 
   @UseInterceptors(FileInterceptor('file', {
@@ -44,7 +40,7 @@ export class AppController {
       throw new BadRequestException(req.fileValidationError)
     }
     if (!file) {
-      throw new BadRequestException('invalid file')
+      throw new BadRequestException('Invalid file')
     }
     return file
   }
