@@ -1,6 +1,7 @@
 import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import * as cookieParser from 'cookie-parser'
 
 import { AppModule } from './app.module'
 import { AppConfigService } from './app.config-service'
@@ -31,7 +32,11 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document) // NOTE: access the Swagger documentation at "/api"
   }
 
-  app.enableCors()
+  app.enableCors({
+    origin: appConfigService.getClientUrl,
+    credentials: true
+  })
+  app.use(cookieParser())
   loggerService.debug(`Application is running on port: ${appConfigService.getPort}`)
   await app.listen(appConfigService.getPort)
 }

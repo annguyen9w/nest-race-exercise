@@ -10,8 +10,8 @@ import { Mapper } from '../common/mapper'
 import { PublicRoute } from '../common/decorator/public.decorator'
 import { JoiValidationPipe } from '../common/validation.pipe'
 
-import { User } from './user.entity'
-import { UserService } from './user.service'
+import { User } from './users.entity'
+import { UserService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 
 @ApiTags('users')

@@ -3,7 +3,7 @@ import {
 } from 'typeorm'
 import type { EntityId } from 'typeorm/repository/EntityId'
 import { MzLoggerService } from '../../logger/logger.service'
-import { User } from '../users/user.entity'
+import { User } from '../users/users.entity'
 
 export class BaseService<T> {
   constructor(

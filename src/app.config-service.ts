@@ -25,6 +25,10 @@ export class AppConfigService {
     return this.getConfigValue('API_VERSION')
   }
 
+  get getClientUrl(): string {
+    return this.getConfigValue('CLIENT_URL')
+  }
+
   get isProduction(): boolean {
     const nodeEnv = this.getConfigValue('NODE_ENV', false)
     return nodeEnv === 'PROD' || process.env.NODE_ENV === 'production'

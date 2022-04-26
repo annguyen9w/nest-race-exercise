@@ -1,7 +1,7 @@
 import {
   PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, BaseEntity as TypeormBaseEntity, ManyToOne
 } from 'typeorm'
-import { User } from '../users/user.entity'
+import { User } from '../users/users.entity'
 
 export abstract class BaseEntity extends TypeormBaseEntity {
   @PrimaryGeneratedColumn('uuid')

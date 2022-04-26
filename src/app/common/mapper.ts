@@ -1,7 +1,7 @@
 import 'automapper-ts'
 import { Injectable } from '@nestjs/common'
 
-import { User } from '../users/user.entity'
+import { User } from '../users/users.entity'
 import { CreateUserDto } from '../users/dto/create-user.dto'
 
 // import { Team } from './team/entities/team.entity'

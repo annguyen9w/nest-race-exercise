@@ -1,67 +1,22 @@
 import {
-  Controller, Get, Post, UseGuards, Request, UsePipes, BadRequestException, UseInterceptors, UploadedFile, Req
+  Controller, Get, Post, BadRequestException, UseInterceptors, UploadedFile, Req
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiOkResponse, ApiTags, ApiBody } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { diskStorage } from 'multer'
-import * as Joi from 'joi'
 import * as path from 'path'
 
 import { AppService } from './app.service'
-import { AuthService } from './auth/auth.service'
-import { LocalAuthGuard } from './auth/local-auth.guard'
-import { PublicRoute } from './app/common/decorator/public.decorator'
-import { JoiValidationPipe } from './app/common/validation.pipe'
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   @ApiTags()
-  @PublicRoute()
   @Get('hello')
   async getHello() {
     try {
       return this.appService.getHello()
-    } catch (error) {
-      throw new BadRequestException(error)
-    }
-  }
-
-  @ApiTags('authen')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      required: ['email', 'password'],
-      properties: {
-        email: { type: 'email', example: 'somebody@hotmail.com' },
-        password: { type: 'string', example: 'youknowwhatitis' }
-      }
-    }
-  })
-  @ApiOkResponse({
-    schema: {
-      type: 'object',
-      properties: {
-        access_token: { type: 'string', example: 'some_random_access_token' }
-      }
-    }
-  })
-  @UsePipes(new JoiValidationPipe({
-    body: Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().required()
-    })
-  }))
-  @UseGuards(LocalAuthGuard)
-  @PublicRoute()
-  @Post('auth/login')
-  login(@Request() req) {
-    try {
-      return this.authService.login(req.user)
     } catch (error) {
       throw new BadRequestException(error)
     }
