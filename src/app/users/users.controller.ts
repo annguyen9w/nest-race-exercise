@@ -1,5 +1,5 @@
 import {
-  Controller, Post, Body, HttpCode, HttpStatus, UsePipes, BadRequestException
+  Controller, Post, Body, HttpCode, HttpStatus, UsePipes
 } from '@nestjs/common'
 import {
   ApiTags, ApiBody, ApiCreatedResponse
@@ -7,8 +7,8 @@ import {
 import * as Joi from 'joi'
 
 import { Mapper } from '../common/mapper'
-import { PublicRoute } from '../common/decorator/public.decorator'
-import { JoiValidationPipe } from '../common/validation.pipe'
+import { PublicRoute } from '../common/decorators/metadata/public-route.decorator'
+import { JoiValidationPipe } from '../common/pipes/validation.pipe'
 
 import { User } from './users.entity'
 import { UserService } from './users.service'
@@ -47,11 +47,7 @@ export class UserController {
   }))
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto) {
-    try {
-      const result = await this.userService.create(this.mapper.map(CreateUserDto, User, createUserDto))
-      return result.identifiers[0]
-    } catch (error) {
-      throw new BadRequestException(error)
-    }
+    const result = await this.userService.create(this.mapper.map(CreateUserDto, User, createUserDto))
+    return result.identifiers[0]
   }
 }

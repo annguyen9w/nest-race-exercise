@@ -1,6 +1,6 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_GUARD } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD } from '@nestjs/core'
 import { MulterModule } from '@nestjs/platform-express'
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
 import * as Joi from 'joi'
@@ -16,6 +16,7 @@ import { LoggerModule } from './logger/logger.module'
 
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
 import { LoggerMiddleware } from './logger/logger.middleware'
+import { AllExceptionFilter } from './app/common/exceptions/all-exception.filter'
 // #endregion Import outside app modules
 
 // #region Import inside app modules
@@ -68,6 +69,10 @@ import { LoggerMiddleware } from './logger/logger.middleware'
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionFilter
     }
   ]
 })

@@ -7,6 +7,7 @@ import { ObjectSchema } from 'joi'
 export class JoiValidationPipe implements PipeTransform {
   constructor(private mySchema: { param?: ObjectSchema, body?: ObjectSchema, query?: ObjectSchema }) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform(value: any, metadata: ArgumentMetadata) {
     let inputValue = value
     if (metadata.data) {

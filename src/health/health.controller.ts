@@ -6,7 +6,7 @@ import {
   MemoryHealthIndicator,
   TypeOrmHealthIndicator
 } from '@nestjs/terminus'
-import { PublicRoute } from '../app/common/decorator/public.decorator'
+import { PublicRoute } from '../app/common/decorators/metadata/public-route.decorator'
 
 @Controller('health')
 export class HealthController {
