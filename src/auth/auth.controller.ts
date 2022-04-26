@@ -27,7 +27,6 @@ export class AuthController {
     private readonly configService: ConfigService
   ) {}
 
-  @Post('signup')
   @ApiBody({
     schema: {
       type: 'object',
@@ -40,8 +39,7 @@ export class AuthController {
       }
     }
   })
-  @ApiCreatedResponse({})
-  @PublicRoute()
+  @ApiCreatedResponse()
   @UsePipes(new JoiValidationPipe({
     body: Joi.object({
       email: Joi.string().email().required(),
@@ -50,7 +48,9 @@ export class AuthController {
       password: Joi.string().required()
     })
   }))
+  @PublicRoute()
   @HttpCode(HttpStatus.CREATED)
+  @Post('signup')
   async signup(@Body() createUserDto: CreateUserDto) {
     const result = await this.userService.create(this.mapper.map(CreateUserDto, User, createUserDto))
     return result.identifiers[0]
@@ -74,21 +74,24 @@ export class AuthController {
       }
     }
   })
+  @UseGuards(LocalAuthGuard)
   @UsePipes(new JoiValidationPipe({
     body: Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required()
     })
   }))
-  @UseGuards(LocalAuthGuard)
   @PublicRoute()
   @Post('login')
   async login(@Req() req, @Res({ passthrough: true }) res: Response) {
-    const result = await this.authService.login(req.user)
+    const result = await this.authService.generateToken(req.user)
     res.cookie(this.configService.get('AUTH_TOKEN_KEY'), result.access_token, {
       httpOnly: true,
       secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
     })
-    res.status(200).json(result)
+    res.status(200).json({
+      user: req.user,
+      access_token: result.access_token
+    })
   }
 }

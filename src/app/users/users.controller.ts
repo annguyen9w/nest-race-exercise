@@ -1,5 +1,5 @@
 import {
-  Controller, Post, Body, HttpCode, HttpStatus, UsePipes
+  Controller, Post, Body, HttpCode, HttpStatus, UsePipes, Get, UseInterceptors, ClassSerializerInterceptor
 } from '@nestjs/common'
 import {
   ApiTags, ApiBody, ApiCreatedResponse
@@ -22,7 +22,15 @@ export class UserController {
     private readonly mapper: Mapper
   ) {}
 
-  @Post()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @PublicRoute()
+  @HttpCode(HttpStatus.CREATED)
+  @Get()
+  async findAll() {
+    const result = await this.userService.findAll()
+    return result
+  }
+
   @ApiBody({
     schema: {
       type: 'object',
@@ -35,8 +43,7 @@ export class UserController {
       }
     }
   })
-  @ApiCreatedResponse({})
-  @PublicRoute()
+  @ApiCreatedResponse()
   @UsePipes(new JoiValidationPipe({
     body: Joi.object({
       email: Joi.string().email().required(),
@@ -45,7 +52,9 @@ export class UserController {
       password: Joi.string().required()
     })
   }))
+  @PublicRoute()
   @HttpCode(HttpStatus.CREATED)
+  @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const result = await this.userService.create(this.mapper.map(CreateUserDto, User, createUserDto))
     return result.identifiers[0]

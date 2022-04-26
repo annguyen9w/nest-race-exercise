@@ -14,6 +14,10 @@ export class UserService {
     return this.repository.findOne({ email })
   }
 
+  async findAll(): Promise<User[]> {
+    return this.repository.find()
+  }
+
   async create(user: User): Promise<InsertResult> {
     const tmpUser: User = user
     const salt = await bcrypt.genSalt()

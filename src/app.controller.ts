@@ -2,7 +2,6 @@ import {
   Controller, Get, Post, BadRequestException, UseInterceptors, UploadedFile, Req
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiTags } from '@nestjs/swagger'
 import { diskStorage } from 'multer'
 import * as path from 'path'
 
@@ -12,7 +11,6 @@ import { AppService } from './app.service'
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @ApiTags()
   @Get('hello')
   async getHello() {
     try {
