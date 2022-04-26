@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'automapper-ts'
 import { Injectable } from '@nestjs/common'
 

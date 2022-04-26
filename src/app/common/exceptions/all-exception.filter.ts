@@ -10,7 +10,7 @@ export class AllExceptionFilter implements ExceptionFilter {
   // constructor(private logger: FmLogger) {}
 
   private static handleResponse(response: Response, exception: HttpException | QueryFailedError | Error): void {
-    let responseBody: any = { message: 'Internal server error' }
+    let responseBody: string | object = { message: 'Internal server error' }
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR
 
     if (exception instanceof HttpException) {
