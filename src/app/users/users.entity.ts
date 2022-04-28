@@ -1,5 +1,5 @@
 import {
-  BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn
+  BaseEntity, Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, Unique, UpdateDateColumn
 } from 'typeorm'
 import { Exclude, Expose } from 'class-transformer'
 
@@ -7,6 +7,11 @@ import { Exclude, Expose } from 'class-transformer'
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
     id!: string
+
+  @Column()
+  @Unique(['userNumber'])
+  @Generated('increment')
+    userNumber: number
 
   @Unique(['email'])
   @Column()
